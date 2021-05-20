@@ -30,7 +30,7 @@ var questionsContainer = document.querySelector("#questions__container");
 var container = document.querySelector("#container");
 var answerButtons = document.querySelector(".answerbutton__container");
 // Timer variables
-var makedivEL = document.createElement("div");
+
 var secondsRemaining = 100;
 var penaltyTime = 0;
 var penaltyAmount = 5;
@@ -42,7 +42,8 @@ startgameTime.addEventListener("click", function () {
 
 function showQuestions() {
 	startgameTime.classList.add("hide");
-	questionsContainer.innerHtml = "";
+	questionsContainer.innerHTML = "";
+	answerButtons.innerHTML = "";
 	for (var i = 0; i < questionBank.length; i++) {
 		var questionTitle = questionBank[questionIndex].title;
 		var questionChoice = questionBank[questionIndex].choices;
@@ -58,16 +59,19 @@ function showQuestions() {
 
 function checkAnswer(event) {
 	var target = event.target;
+	var makedivEl = document.createElement("div");
 	if (target.innerText == questionBank[questionIndex].answer) {
 		console.log("correct");
 		score++;
-		makedivEL.textContent = "That is correct!";
-		questionsContainer.appendChild(makedivEL);
+		makedivEl.textContent = "That is correct!";
+		questionsContainer.appendChild(makedivEl);
 	} else {
-		secondsRemaining + -penaltyAmount;
-		makedivEL.textContent = "That is not correct :(";
-		questionsContainer.appendChild(makedivEL);
+		secondsRemaining = secondsRemaining - penaltyAmount;
+		console.log("incorrect");
+		makedivEl.textContent = "That is not correct :(";
+		questionsContainer.appendChild(makedivEl);
 	}
+
 	questionIndex++;
 
 	if (questionIndex >= questionBank.length) {
@@ -76,4 +80,9 @@ function checkAnswer(event) {
 	} else {
 		showQuestions(questionIndex);
 	}
+	questionsContainer.appendChild(makedivEl);
+}
+
+function gameOver() {
+	console.log("Game Over");
 }
