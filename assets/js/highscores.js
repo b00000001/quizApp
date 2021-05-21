@@ -7,7 +7,7 @@ function displayScore() {
 		var makeOl = document.createElement("ol");
 		var makeLi = document.createElement("li");
 		scores.sort(function (a, b) {
-			return b - a;
+			return b - a; // Function to sort the scores from highest to lowest
 		});
 
 		makeOl.innerText =
@@ -18,6 +18,6 @@ function displayScore() {
 	}
 }
 makebuttonEl.addEventListener("click", function () {
-	window.open("./index.html");
+	window.open("./index.html"); // Takes you back to the main game if you click the button.
 });
 displayScore();
