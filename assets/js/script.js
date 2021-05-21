@@ -95,9 +95,9 @@ function checkAnswer(event) {
 function gameOver() {
 	questionsContainer.innerHTML = "Game Over";
 	answerButtons.innerHTML = "";
-	var makebuttonEl = document.createElement("button");
-	makebuttonEl.innerText = "Start Over?";
-	answerButtons.appendChild(makebuttonEl);
+	// var makebuttonEl = document.createElement("button");
+	// makebuttonEl.innerText = "Start Over?";
+	// answerButtons.appendChild(makebuttonEl);
 	console.log("Game Over");
 
 	if (secondsRemaining >= 0) {
@@ -142,8 +142,11 @@ function gameOver() {
 			var newScores = JSON.stringify(totalScore);
 			localStorage.setItem("totalScore", newScores);
 			makeInput.value = "";
+			window.open("./highscores.html");
 		}
 		questionsContainer.textContent = "Thank you!";
 	});
+	startgameTime.innerHTML = "Restart?";
+	startgameTime.classList.remove("hide");
 	makebuttonEl.addEventListener("click", showQuestions);
 }
