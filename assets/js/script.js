@@ -16,7 +16,7 @@ var questionBank = [
 	},
 	{
 		title: "What language is this written in?",
-		choices: ["C++", "Rubyy", "Javascript", "Perl"],
+		choices: ["C++", "Ruby", "Javascript", "Perl"],
 		answer: "Javascript",
 	},
 ];
@@ -35,6 +35,8 @@ var secondsRemaining = 100;
 var penaltyTime = 0;
 var penaltyAmount = 5;
 
+//The event listener belos is run once the showQuestions() function is run and handles starting the timer for the application.
+
 startgameTime.addEventListener("click", function () {
 	if (penaltyTime === 0) {
 		penaltyTime = setInterval(function () {
@@ -47,19 +49,21 @@ startgameTime.addEventListener("click", function () {
 		}, 1000);
 	}
 	console.log("Start game");
-	showQuestions();
+	showQuestions(); // After checking if the penalty time is at 0, the game begins with this function.
 });
 
 function showQuestions() {
-	startgameTime.classList.add("hide");
+	startgameTime.classList.add("hide"); // Hides initial start button
 	questionsContainer.innerHTML = "";
 	answerButtons.innerHTML = "";
 	for (var i = 0; i < questionBank.length; i++) {
+		// For loop that populates individual questions.
 		var questionTitle = questionBank[questionIndex].title;
 		var questionChoice = questionBank[questionIndex].choices;
 		questionsContainer.innerText = questionTitle;
 	}
 	for (var i = 0; i < 4; i++) {
+		// For loop that populates buttons with answers.
 		var button = document.createElement("button");
 		button.innerText = questionBank[questionIndex].choices[i];
 		button.addEventListener("click", checkAnswer);
@@ -71,11 +75,13 @@ function checkAnswer(event) {
 	var target = event.target;
 	var makedivEl = document.createElement("div");
 	if (target.innerText == questionBank[questionIndex].answer) {
+		// Check if target value === the value of the questionbank answer variable.
 		console.log("correct");
 		score++;
 		makedivEl.textContent = "That is correct!";
 		answerButtons.appendChild(makedivEl);
 	} else {
+		// If target value is not equal, subtract penalty amount from time left.
 		secondsRemaining = secondsRemaining - penaltyAmount;
 		console.log("incorrect");
 		makedivEl.textContent = "That is not correct :(";
@@ -101,13 +107,14 @@ function gameOver() {
 	console.log("Game Over");
 
 	if (secondsRemaining >= 0) {
+		// IF you have more than 0 seconds on clock, consider that in the final score
 		var remainingTime = secondsRemaining;
 		var createh2 = document.createElement("h2");
 		clearInterval(penaltyTime);
 		createh2.textContent = "Your Final Score: " + remainingTime;
 		questionsContainer.appendChild(createh2);
 	}
-	questionIndex = 0;
+	questionIndex = 0; // Reset question index in case another game is to be played
 
 	var makeForm = document.createElement("form");
 	var makeInput = document.createElement("input");
@@ -120,6 +127,7 @@ function gameOver() {
 	makeForm.appendChild(makesubmitButton);
 	makeForm.appendChild(makeInput);
 	questionsContainer.appendChild(makeForm);
+	//The above handles creating the input form for inital entering.
 
 	makesubmitButton.addEventListener("click", function () {
 		var getInitials = document.getElementById("userInitials");
@@ -129,6 +137,7 @@ function gameOver() {
 			console.log("No value entered");
 		} else {
 			var playerRecord = {
+				// Shape of data to be passed to localstorage
 				initials: userInitials,
 				score: remainingTime,
 			};
@@ -142,7 +151,7 @@ function gameOver() {
 			var newScores = JSON.stringify(totalScore);
 			localStorage.setItem("totalScore", newScores);
 			makeInput.value = "";
-			window.open("./highscores.html");
+			window.open("./highscores.html"); //Takes you to high scores page after entering initials.
 		}
 		questionsContainer.textContent = "Thank you!";
 	});
